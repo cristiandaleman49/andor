@@ -1,26 +1,225 @@
+/* =============================================================================
+   ANDOR — Fundamentos visuales
+   Dark-first. Tailwind CSS v4 en configuración CSS-first (sin tailwind.config).
+   Estructura del archivo:
+     1. Paleta cruda       → valores de marca, no se usan en componentes
+     2. Tokens semánticos  → lo que consumen los componentes
+     3. Mapeo a @theme     → genera las utilidades (bg-surface, text-muted, ...)
+     4. Base global        → defaults del documento
+     5. Utilidades propias → fondos de marca
+   ============================================================================= */
+
 @import "tailwindcss";
 
+/* -----------------------------------------------------------------------------
+   1. Paleta cruda
+   -------------------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Negros y superficies — ligeramente cálidos, nunca azulados */
+  --andor-black: #070709;
+  --andor-ink-900: #0b0c0f;
+  --andor-ink-800: #101216;
+  --andor-ink-700: #16181e;
+  --andor-ink-600: #1d2028;
+  --andor-ink-500: #262a33;
+
+  /* Blancos y grises cálidos: papel, no pantalla */
+  --andor-white: #f6f4ef;
+  --andor-gray-200: #d8d5cd;
+  --andor-gray-400: #a6a29a;
+  --andor-gray-500: #84817b;
+  --andor-gray-600: #64625d;
+
+  /* Verde ANDOR — profundo, cinematográfico, controlado */
+  --andor-green-300: #8df7bd;
+  --andor-green-400: #4ee49a;
+  --andor-green-500: #22c77a;
+  --andor-green-600: #14955b;
+  --andor-green-700: #0d6b41;
+
+  /* Rojo de contraste — solo para puntuar y destacar */
+  --andor-red-400: #ff6f61;
+  --andor-red-500: #e23a2e;
+  --andor-red-600: #b02a20;
 }
 
+/* -----------------------------------------------------------------------------
+   2. Tokens semánticos
+   -------------------------------------------------------------------------- */
+:root {
+  /* El sitio es dark-first: todavía no existe tema claro */
+  color-scheme: dark;
+
+  --background: var(--andor-black);
+  --foreground: var(--andor-white);
+  --muted: var(--andor-gray-400);
+  --subtle: var(--andor-gray-600);
+
+  --surface: var(--andor-ink-800);
+  --surface-raised: var(--andor-ink-700);
+  --surface-hover: var(--andor-ink-600);
+  --surface-sunken: var(--andor-ink-900);
+
+  --accent: var(--andor-green-500);
+  --accent-strong: var(--andor-green-400);
+  --accent-deep: var(--andor-green-600);
+  --accent-foreground: #04150d; /* texto sobre fondos de acento */
+
+  --highlight: var(--andor-red-500);
+  --highlight-strong: var(--andor-red-400);
+
+  --border: rgb(255 255 255 / 0.08);
+  --border-strong: rgb(255 255 255 / 0.16);
+  --border-accent: rgb(34 199 122 / 0.4);
+
+  --ring: var(--andor-green-400);
+
+  /* Tintes de acento para glows, hovers y gradientes */
+  --accent-tint-08: rgb(34 199 122 / 0.08);
+  --accent-tint-16: rgb(34 199 122 / 0.16);
+
+  /* Gradientes sutiles: atmósfera, nunca arcoíris */
+  --gradient-cinema: radial-gradient(
+    120% 80% at 50% -10%,
+    var(--accent-tint-16) 0%,
+    transparent 60%
+  );
+  --gradient-surface: linear-gradient(
+    180deg,
+    var(--andor-ink-800) 0%,
+    var(--andor-ink-900) 100%
+  );
+
+  /* Curva única de movimiento de la marca */
+  --ease-brand: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* -----------------------------------------------------------------------------
+   3. Mapeo a @theme — aquí nacen las utilidades de Tailwind
+   -------------------------------------------------------------------------- */
 @theme inline {
+  /* Colores semánticos */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-deep: var(--accent-deep);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-highlight: var(--highlight);
+  --color-highlight-strong: var(--highlight-strong);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-border-accent: var(--border-accent);
+  --color-ring: var(--ring);
+
+  /* Tipografía */
+  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+
+  /* Escala editorial */
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.22em;
+  --text-display: clamp(2.5rem, 7vw, 4.75rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.02em;
+  --text-display-lg: clamp(3.5rem, 11vw, 8.5rem);
+  --text-display-lg--line-height: 0.9;
+  --text-display-lg--letter-spacing: -0.03em;
+
+  /* Radios */
+  --radius-card: 1.25rem;
+  --radius-panel: 1.75rem;
+
+  /* Elevación — negros profundos, nunca gris */
+  --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset,
+    0 20px 44px -28px rgb(0 0 0 / 0.9);
+  --shadow-elevated: 0 32px 80px -40px rgb(0 0 0 / 0.95);
+  --shadow-glow: 0 0 0 1px var(--border-accent),
+    0 24px 60px -28px rgb(34 199 122 / 0.35);
+
+  /* Movimiento */
+  --animate-rise: rise 0.9s var(--ease-brand) both;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.25rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* -----------------------------------------------------------------------------
+   4. Base global
+   -------------------------------------------------------------------------- */
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--accent-tint-16);
+    color: var(--foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* Scrollbars discretas para no romper la atmósfera cinematográfica */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--andor-ink-500) transparent;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   5. Utilidades propias
+   -------------------------------------------------------------------------- */
+/* Atmósfera cinematográfica: negro base + glow de acento apenas perceptible */
+@utility bg-cinema {
+  background-color: var(--background);
+  background-image: var(--gradient-cinema);
+}
+
+/* Superficie con degradado vertical casi imperceptible */
+@utility bg-surface-gradient {
+  background-image: var(--gradient-surface);
+}
+
+/* Respeta a quien prefiere menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
