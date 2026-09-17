@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Syne } from "next/font/google";
 
+import CartProvider from "@/components/cart/CartProvider";
+
 import "./globals.css";
 
 /* Tipografía de marca: Syne (display editorial) + Inter (lectura y UI) */
@@ -53,7 +55,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${syne.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
-        {children}
+        {/* La bag vive en el layout raíz: estado en cliente, el resto de la
+            app sigue renderizándose en servidor a través de children */}
+        <CartProvider>{children}</CartProvider>
       </body>
     </html>
   );

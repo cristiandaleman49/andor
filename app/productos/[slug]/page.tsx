@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import Header from "@/components/layout/Header";
+import AddToBagButton from "@/components/cart/AddToBagButton";
 import { ArtVisual } from "@/components/ui/ArtVisual";
 import { getCollection } from "@/lib/data/collections";
 import { getProduct, products } from "@/lib/data/products";
@@ -12,9 +13,8 @@ import { formatPrice } from "@/lib/format";
    Detalle de producto
    -----------------------------------------------------------------------------
    La ficha mínima de una pieza: visual grande a un lado, la información al
-   otro. Suficientemente realista para validar la experiencia, sin ecommerce:
-   el CTA "Add to bag" es un gesto visual que todavía no lleva a ningún sitio
-   (sin carrito, sin checkout), y así se indica debajo del propio botón.
+   otro. El CTA "Add to bag" es una isla client que alimenta la bag; la página
+   sigue siendo un Server Component.
 
    Server Component. Los slugs mock se prerenderizan en el build; uno
    desconocido responde 404.
@@ -104,16 +104,9 @@ export default async function ProductPage({
               {formatPrice(product.price)}
             </p>
 
-            {/* CTA visual de esta fase: sin carrito detrás todavía */}
-            <button
-              type="button"
-              className="bg-foreground text-background hover:bg-accent focus-visible:outline-foreground mt-8 w-full rounded-card px-10 py-4 text-sm font-semibold tracking-[0.18em] uppercase transition-colors duration-300 ease-[var(--ease-brand)] focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto sm:self-start"
-            >
-              Add to bag
-            </button>
-            <p className="text-subtle mt-4 text-xs/relaxed">
-              El bag llega en la próxima fase: este gesto todavía no guarda nada.
-            </p>
+            {/* CTA: isla client. Añade a la bag y abre el drawer; el botón se
+                desactiva un instante para evitar dobles agregados */}
+            <AddToBagButton slug={product.slug} />
           </div>
         </div>
       </main>

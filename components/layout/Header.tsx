@@ -1,7 +1,10 @@
 import Link from "next/link";
 
+import CartButton from "@/components/cart/CartButton";
+
 /* Navegación principal de ANDORPETS.
-   Server Component: hoy no necesita estado ni interacción.
+   Server Component: no tiene estado propio. El botón CART es una isla client
+   (components/cart/CartButton.tsx) que consume el contexto de la bag.
    Enlaces reales a anclas de la home: "Explore" ya lleva a la primera fila de
    contenido, que existe; "Collections" y "About" esperan a sus secciones, así
    que no se crean rutas inexistentes ni enlaces que devuelvan 404. */
@@ -63,13 +66,7 @@ export default function Header() {
             Menu
           </button>
 
-          <button
-            type="button"
-            aria-label="Ver carrito"
-            className="text-eyebrow text-foreground border-border hover:border-border-strong hover:bg-surface inline-flex items-center rounded-full border px-3.5 py-2.5 uppercase transition-colors duration-300 sm:px-5"
-          >
-            Cart
-          </button>
+          <CartButton />
         </div>
       </div>
     </header>
