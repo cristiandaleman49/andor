@@ -1,11 +1,13 @@
 import Header from "@/components/layout/Header";
 import Hero from "@/components/sections/Hero";
 import ContentRail from "@/components/sections/ContentRail";
+import CollectionGrid from "@/components/sections/CollectionGrid";
 import type { ContentCardProps } from "@/components/ui/ContentCard";
 
-/* Home de ANDORPETS. Fase 2: header + hero + una fila de descubrimiento.
-   Las siguientes secciones (explora, colecciones, originals, para ti)
-   llegarán después sobre este mismo patrón.
+/* Home de ANDORPETS. Fase 3: header + hero + una fila de descubrimiento +
+   la biblioteca de colecciones.
+   Las siguientes secciones (originals, para ti) llegarán después sobre este
+   mismo patrón.
 
    Datos mock mínimos e intencionadamente planos: el objetivo de la fase es
    validar el lenguaje visual y el patrón de navegación, no la capa de datos.
@@ -63,6 +65,14 @@ export default function Home() {
           title="Trending now"
           description="Lo que la comunidad está descubriendo esta semana."
           items={trending}
+        />
+
+        {/* Ancla usada por el header y por el CTA del hero */}
+        <CollectionGrid
+          id="collections"
+          eyebrow="Pet culture"
+          title="Explore AndorPets"
+          description="Seis universos para elegir el que representa a tu mascota. No son categorías de producto: son formas de entender el paseo."
         />
       </main>
     </>
