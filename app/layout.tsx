@@ -18,14 +18,14 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "ANDOR — Dogs Have Culture.",
-    template: "%s — ANDOR",
+    default: "ANDORPETS — Pets Have Culture.",
+    template: "%s — ANDORPETS",
   },
   description:
-    "ANDOR diseña accesorios para perros con identidad propia: dirección editorial, cultura pop y detalles precisos para perros con carácter.",
-  applicationName: "ANDOR",
+    "ANDORPETS diseña accesorios para perros con identidad propia: dirección editorial, cultura pop y detalles precisos para perros con carácter.",
+  applicationName: "ANDORPETS",
   keywords: [
-    "ANDOR",
+    "ANDORPETS",
     "accesorios para perros",
     "pet lifestyle",
     "cultura pop",
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "es_ES",
-    siteName: "ANDOR",
-    title: "ANDOR — Dogs Have Culture.",
+    siteName: "ANDORPETS",
+    title: "ANDORPETS — Pets Have Culture.",
     description:
       "Accesorios para perros con identidad propia: dirección editorial, cultura pop y detalles precisos.",
   },
