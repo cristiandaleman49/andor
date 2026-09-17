@@ -30,17 +30,22 @@
   --andor-gray-500: #84817b;
   --andor-gray-600: #64625d;
 
-  /* Verde ANDOR — profundo, cinematográfico, controlado */
-  --andor-green-300: #8df7bd;
-  --andor-green-400: #4ee49a;
-  --andor-green-500: #22c77a;
-  --andor-green-600: #14955b;
-  --andor-green-700: #0d6b41;
+  /* Rojo ANDOR — COLOR DE MARCA. Intenso pero sofisticado: personalidad,
+     energía y carácter. Es el puente con el universo de Un Geek Extremo,
+     así que se usa contenido (acentos, trazos, superficies pequeñas) y con
+     mucho negro alrededor. Nunca rojo de alarma ni de interfaz gamer */
+  --andor-red-300: #ff8a85;
+  --andor-red-400: #ff4a45;
+  --andor-red-500: #e53935;
+  --andor-red-600: #c62828;
+  --andor-red-700: #b71c1c;
 
-  /* Rojo de contraste — solo para puntuar y destacar */
-  --andor-red-400: #ff6f61;
-  --andor-red-500: #e23a2e;
-  --andor-red-600: #b02a20;
+  /* Azul eléctrico — acento SECUNDARIO. Solo detalles técnicos, estados de
+     apoyo y micro-elementos gráficos. Nunca compite con el rojo */
+  --andor-blue-300: #5fd6ff;
+  --andor-blue-400: #00a9e8;
+  --andor-blue-500: #0090c6;
+  --andor-blue-600: #0077a8;
 }
 
 /* -----------------------------------------------------------------------------
@@ -60,30 +65,49 @@
   --surface-hover: var(--andor-ink-600);
   --surface-sunken: var(--andor-ink-900);
 
-  --accent: var(--andor-green-500);
-  --accent-strong: var(--andor-green-400);
-  --accent-deep: var(--andor-green-600);
-  --accent-foreground: #04150d; /* texto sobre fondos de acento */
+  /* Rojo ANDOR: el acento de la marca.
+     Contraste medido sobre --background (#070709):
+       accent 4.76:1 · accent-strong 6.05:1 · red-300 8.84:1
+     Sobre superficies rojas sólidas usar --accent-deep con texto claro (6.57:1) */
+  --accent: var(--andor-red-500); /* texto, iconos y trazos sobre negro */
+  --accent-strong: var(--andor-red-400); /* hover, énfasis, focus ring */
+  --accent-deep: var(--andor-red-700); /* superficies de acento con texto claro */
+  --accent-foreground: #ffffff; /* texto sobre fondos de acento */
 
-  --highlight: var(--andor-red-500);
-  --highlight-strong: var(--andor-red-400);
+  /* Azul secundario: detalles tecnológicos, nunca protagonista */
+  --secondary: var(--andor-blue-400);
+  --secondary-deep: var(--andor-blue-600);
+
+  /* El rojo pasó a ser color de marca, así que highlight deja de ser rojo:
+     apunta al acento secundario (azul) para no duplicar ni competir con --accent */
+  --highlight: var(--secondary);
+  --highlight-strong: var(--andor-blue-300);
 
   --border: rgb(255 255 255 / 0.08);
   --border-strong: rgb(255 255 255 / 0.16);
-  --border-accent: rgb(34 199 122 / 0.4);
+  --border-accent: rgb(229 57 53 / 0.42);
+  --border-secondary: rgb(0 169 232 / 0.32);
 
-  --ring: var(--andor-green-400);
+  --ring: var(--accent-strong);
 
-  /* Tintes de acento para glows, hovers y gradientes */
-  --accent-tint-08: rgb(34 199 122 / 0.08);
-  --accent-tint-16: rgb(34 199 122 / 0.16);
+  /* Tintes de acento para glows, hovers y gradientes: dosis mínimas de rojo */
+  --accent-tint-04: rgb(229 57 53 / 0.04);
+  --accent-tint-08: rgb(229 57 53 / 0.08);
+  --accent-tint-16: rgb(229 57 53 / 0.16);
 
-  /* Gradientes sutiles: atmósfera, nunca arcoíris */
+  /* Gradientes sutiles: negro profundo + tinte de marca apenas perceptible.
+     El azul no entra aquí: mezclar rojo y azul deriva en lectura cyberpunk */
   --gradient-cinema: radial-gradient(
-    120% 80% at 50% -10%,
-    var(--accent-tint-16) 0%,
-    transparent 60%
-  );
+      112% 68% at 50% -10%,
+      var(--accent-tint-08) 0%,
+      var(--accent-tint-04) 34%,
+      transparent 64%
+    ),
+    linear-gradient(
+      180deg,
+      var(--andor-ink-900) 0%,
+      var(--andor-black) 55%
+    );
   --gradient-surface: linear-gradient(
     180deg,
     var(--andor-ink-800) 0%,
@@ -111,11 +135,14 @@
   --color-accent-strong: var(--accent-strong);
   --color-accent-deep: var(--accent-deep);
   --color-accent-foreground: var(--accent-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-deep: var(--secondary-deep);
   --color-highlight: var(--highlight);
   --color-highlight-strong: var(--highlight-strong);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
   --color-border-accent: var(--border-accent);
+  --color-border-secondary: var(--border-secondary);
   --color-ring: var(--ring);
 
   /* Tipografía */
@@ -142,8 +169,9 @@
   --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset,
     0 20px 44px -28px rgb(0 0 0 / 0.9);
   --shadow-elevated: 0 32px 80px -40px rgb(0 0 0 / 0.95);
+  /* Glow de marca: rojo, siempre contenido (un halo, no un foco) */
   --shadow-glow: 0 0 0 1px var(--border-accent),
-    0 24px 60px -28px rgb(34 199 122 / 0.35);
+    0 24px 60px -30px rgb(229 57 53 / 0.28);
 
   /* Movimiento */
   --animate-rise: rise 0.9s var(--ease-brand) both;

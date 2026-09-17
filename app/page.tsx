@@ -2,7 +2,7 @@
    Se reemplazará por la home real (descubrimiento, colecciones y drops). */
 
 const foundations = [
-  { label: "Paleta", value: "dark-first · verde ANDOR · rojo de contraste" },
+  { label: "Paleta", value: "dark-first · rojo ANDOR · azul secundario" },
   { label: "Tipografía", value: "Syne (display) + Inter (lectura y UI)" },
   { label: "Tokens", value: "Tailwind CSS v4 · @theme inline" },
 ];
