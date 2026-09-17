@@ -45,14 +45,20 @@ export type Product = {
   slug: string;
   /** Nombre de la pieza */
   name: string;
+  /** Frase corta de campaña, bajo el nombre */
+  statement: string;
   /** Una línea editorial sobre la pieza */
   description: string;
+  /** Contexto cultural: por qué la pieza pertenece a su universo */
+  story: string;
   /** Precio en euros, sin céntimos en esta fase */
   price: number;
   /** Slug de la colección a la que pertenece */
   collection: string;
   /** Tipo de pieza: "Arnés", "Correa", "Sudadera"... */
   category: string;
+  /** Nota de diseño: el gesto visual de la pieza, sin specs de fabricación */
+  design: string;
   /** Firma visual mientras no exista fotografía del producto */
   visualVariant: ArtVariant;
 };
