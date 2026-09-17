@@ -29,7 +29,7 @@ export default function Hero() {
           </h1>
 
           <p className="animate-rise text-muted mt-7 max-w-md text-lg/relaxed [animation-delay:240ms]">
-            Discover your dog&apos;s universe.
+            Discover your pet&apos;s universe.
           </p>
 
           <div className="animate-rise mt-10 [animation-delay:360ms]">
@@ -58,22 +58,26 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Protagonista visual: marco reservado para la fotografía
-            principal del Border Collie. Todavía sin imagen: la composición
-            funciona con luz, silueta abstracta, rejilla y marcas técnicas. */}
-        <figure className="border-border bg-surface-gradient shadow-elevated relative isolate aspect-[4/5] w-full overflow-hidden rounded-panel border sm:aspect-[16/10] lg:aspect-auto lg:-mr-14 lg:h-[min(38rem,62svh)] lg:rounded-r-none">
+        {/* Protagonista visual: marco reservado para el asset principal.
+            No está acoplado a ninguna mascota concreta: admite la fotografía
+            de un perro, de un gato o de cualquier otra, y también video.
+            Todavía sin asset: la composición funciona con luz, silueta
+            abstracta, rejilla y marcas técnicas. */}
+        <figure className="border-border bg-surface-gradient shadow-elevated @container relative isolate aspect-[4/5] w-full overflow-hidden rounded-panel border sm:aspect-[16/10] lg:aspect-auto lg:-mr-14 lg:h-[min(38rem,62svh)] lg:rounded-r-none">
           {/* Rejilla técnica apenas visible: se apaga hacia los bordes */}
           <span
             aria-hidden="true"
             className="absolute inset-0 bg-[repeating-linear-gradient(to_right,var(--border)_0_1px,transparent_1px_72px),repeating-linear-gradient(to_bottom,var(--border)_0_1px,transparent_1px_72px)] [mask-image:radial-gradient(120%_95%_at_50%_10%,#000_0%,transparent_78%)]"
           />
 
-          {/* Marca de agua editorial. "ANDORPETS" tiene más glifos que la
-              marca anterior, así que la escala se ajustó al ancho del marco
-              para que se lea completa, sin recortes, en todos los breakpoints */}
+          {/* Marca de agua editorial. El cuerpo va en unidades de container
+              (12cqw sobre el propio marco), no de viewport: así guarda la
+              misma proporción respecto al marco en cualquier breakpoint y
+              nunca se recorta, ni siquiera cuando el marco es más estrecho
+              que la pantalla (tablet apaisada, portátiles pequeños). */}
           <span
             aria-hidden="true"
-            className="font-display text-foreground/5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[11vw] leading-none font-bold uppercase lg:text-[4.9vw]"
+            className="font-display text-foreground/5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[12cqw] leading-none font-bold uppercase"
           >
             AndorPets
           </span>
@@ -108,9 +112,11 @@ export default function Hero() {
           ))}
 
           <figcaption className="absolute bottom-6 left-6 max-w-[24ch] sm:bottom-7 sm:left-8">
-            <p className="text-eyebrow text-secondary uppercase">Border collie</p>
+            {/* Sin raza ni especie: el marco es un espacio reservado, no un
+                retrato concreto. El azul marca el dato técnico, no el texto */}
+            <p className="text-eyebrow text-secondary uppercase">Featured</p>
             <p className="text-muted mt-2 text-xs/relaxed">
-              Fotografía principal · próximamente
+              Fotografía o video · próximamente
             </p>
           </figcaption>
         </figure>

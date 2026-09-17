@@ -2,11 +2,11 @@ import Link from "next/link";
 
 /* Navegación principal de ANDORPETS.
    Server Component: hoy no necesita estado ni interacción.
-   Los enlaces apuntan a anclas de la home porque las secciones reales
-   (explore, collections, about) llegarán en fases posteriores: así no se
-   crean rutas inexistentes ni enlaces que devuelvan 404. */
+   Enlaces reales a anclas de la home: "Explore" ya lleva a la primera fila de
+   contenido, que existe; "Collections" y "About" esperan a sus secciones, así
+   que no se crean rutas inexistentes ni enlaces que devuelvan 404. */
 const navigation = [
-  { label: "Explore", href: "/#explore" },
+  { label: "Explore", href: "/#trending" },
   { label: "Collections", href: "/#collections" },
   { label: "About", href: "/#about" },
 ] as const;
