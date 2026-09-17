@@ -1,92 +1,38 @@
 import Link from "next/link";
 
+import { ArtVisual } from "@/components/ui/ArtVisual";
+import type { ArtVariant } from "@/lib/types";
+
 /* -----------------------------------------------------------------------------
    Card de contenido de ANDORPETS
    -----------------------------------------------------------------------------
-   Pieza reutilizable del lenguaje de descubrimiento. En esta fase la misma
-   card representa indistintamente una colección, un producto, un drop o una
-   pieza editorial: por eso los campos van sueltos y opcionales y no existe
-   todavía un sistema de tipos por entidad.
+   Pieza reutilizable del lenguaje de descubrimiento. Representa un drop, una
+   pieza editorial o un contenido destacado de la home; los productos usan
+   ProductCard y las colecciones CollectionCard, que comparten este mismo
+   lenguaje visual (mismo arte, mismo velo, mismo hover).
 
-   Reglas de esta fase:
+   Reglas:
      · El arte visual es el protagonista; el texto es una etiqueta breve.
      · Sin botones, sin precios, sin badges comerciales.
-     · Todo el arte es CSS (formas, luz y rejilla): ningún asset externo.
+     · El arte es CSS compartido (components/ui/ArtVisual.tsx): cuando existan
+       assets reales se sustituye ahí, sin tocar esta card.
      · Server Component: no necesita estado ni interacción.
    -------------------------------------------------------------------------- */
 
-/* Variantes del arte de relleno. Cada una parte del mismo lienzo oscuro y
-   añade una intención distinta: masa con luz de estudio, rejilla técnica,
-   haz de luz, geometría de detalle o duotono. Se sustituirán por fotografía
-   o video real sin tocar el resto de la card. */
-export type ContentCardArt = "halo" | "grid" | "beam" | "orbit" | "duotone";
-
 export type ContentCardProps = {
-  /** Título de contenido: colección, producto, drop o pieza editorial */
+  /** Título de contenido: drop, pieza editorial o contenido destacado */
   title: string;
   /** Destino. En esta fase apunta a anclas de la home: las secciones reales
-      (colecciones, drops, editorial) llegan más adelante, así que nunca se
-      enlaza a una ruta que devuelva 404. */
+      (drops, editorial) llegan más adelante, así que nunca se enlaza a una
+      ruta que devuelva 404. */
   href: string;
-  /** Etiqueta corta de familia de contenido: "Colección", "Drop", ... */
+  /** Etiqueta corta de familia de contenido: "Drop", "Editorial", ... */
   category?: string;
   /** Dato secundario breve: número de piezas, duración, estado */
   meta?: string;
   /** Arte de relleno mientras no exista el asset definitivo */
-  art?: ContentCardArt;
+  art?: ArtVariant;
 };
-
-function ArtPlaceholder({ art }: { art: ContentCardArt }) {
-  switch (art) {
-    /* Masa oscura con luz de estudio roja: el mismo lenguaje del Hero */
-    case "halo":
-      return (
-        <>
-          <span className="bg-[radial-gradient(circle,var(--accent-tint-16)_0%,transparent_70%)] absolute -top-16 -left-12 size-48 rounded-full blur-2xl" />
-          <span className="bg-[linear-gradient(160deg,var(--andor-ink-700)_0%,var(--andor-black)_78%)] absolute bottom-[-22%] left-1/2 h-[58%] w-[76%] -translate-x-1/2 rounded-[48%_52%_44%_56%]" />
-        </>
-      );
-
-    /* Rejilla técnica en azul secundario: detalle, no protagonista */
-    case "grid":
-      return (
-        <>
-          <span className="bg-[repeating-linear-gradient(to_right,var(--border)_0_1px,transparent_1px_40px),repeating-linear-gradient(to_bottom,var(--border)_0_1px,transparent_1px_40px)] absolute inset-0 [mask-image:radial-gradient(110%_90%_at_50%_6%,#000_0%,transparent_80%)]" />
-          <span className="border-border-secondary absolute inset-5 border" />
-        </>
-      );
-
-    /* Haz de luz diagonal con línea de horizonte */
-    case "beam":
-      return (
-        <>
-          <span className="bg-[linear-gradient(118deg,transparent_34%,var(--accent-tint-08)_46%,transparent_60%)] absolute inset-0" />
-          <span className="bg-border absolute inset-x-0 top-[34%] h-px" />
-        </>
-      );
-
-    /* Geometría concéntrica: el detalle preciso, casi científico.
-       Se sitúa por encima del velo para que no la coma el degradado */
-    case "orbit":
-      return (
-        <>
-          <span className="bg-[radial-gradient(circle,var(--accent-tint-16)_0%,transparent_70%)] absolute top-[38%] left-1/2 size-40 -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl" />
-          <span className="border-border-accent absolute top-[38%] left-1/2 size-44 -translate-x-1/2 -translate-y-1/2 rounded-full border" />
-          <span className="border-border-secondary absolute top-[38%] left-1/2 size-28 -translate-x-1/2 -translate-y-1/2 rounded-full border" />
-          <span className="bg-accent absolute top-[38%] left-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full" />
-        </>
-      );
-
-    /* Duotono contenido: rojo de marca arriba, azul de detalle abajo */
-    case "duotone":
-      return (
-        <>
-          <span className="bg-[linear-gradient(150deg,var(--accent-tint-16)_0%,transparent_44%,var(--andor-ink-900)_100%)] absolute inset-0" />
-          <span className="bg-[linear-gradient(330deg,var(--secondary-deep)_0%,transparent_50%)] absolute inset-0 opacity-25" />
-        </>
-      );
-  }
-}
 
 export default function ContentCard({
   title,
@@ -108,7 +54,7 @@ export default function ContentCard({
         aria-hidden="true"
         className="ease-[var(--ease-brand)] absolute inset-0 transition-transform duration-700 group-hover:scale-[1.04]"
       >
-        <ArtPlaceholder art={art} />
+        <ArtVisual variant={art} />
       </div>
 
       {/* Velo inferior: asegura el contraste del texto sobre cualquier arte

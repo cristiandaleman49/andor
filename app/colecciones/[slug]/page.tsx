@@ -3,14 +3,16 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import Header from "@/components/layout/Header";
+import ProductRail from "@/components/sections/ProductRail";
 import { collections, getCollection } from "@/lib/data/collections";
+import { getProductsByCollection } from "@/lib/data/products";
 
 /* -----------------------------------------------------------------------------
    Detalle de colección
    -----------------------------------------------------------------------------
-   Ruta mínima: existe para que las portadas de la biblioteca sean enlaces
-   reales y ninguna navegación acabe en un 404. No es la página de producto:
-   aquí todavía no hay piezas, filtros ni compra.
+   La portada de un universo: cabecera editorial (qué es este universo) y, a
+   continuación, sus piezas en una fila de descubrimiento. No es una ficha de
+   tienda: sin filtros, sin compra, sin rejilla de catálogo.
 
    Server Component. Los seis slugs se prerenderizan en el build; un slug
    desconocido responde 404 en lugar de generar una página vacía.
@@ -46,37 +48,58 @@ export default async function CollectionPage({
     notFound();
   }
 
+  const pieces = getProductsByCollection(collection.slug);
+
   return (
     <>
       <Header />
 
-      <main className="bg-cinema flex flex-1 flex-col justify-center px-6 py-20 sm:px-10 lg:px-14 lg:py-28">
-        <div className="max-w-2xl">
-          <p className="text-eyebrow text-accent flex items-center gap-3 uppercase">
-            <span aria-hidden="true" className="bg-accent h-px w-10" />
-            Pet culture
-          </p>
+      <main className="bg-cinema flex flex-1 flex-col">
+        {/* Cabecera editorial del universo */}
+        <section className="px-6 pt-14 pb-4 sm:px-10 lg:px-14 lg:pt-20">
+          <div className="max-w-2xl">
+            <p className="text-eyebrow text-accent flex items-center gap-3 uppercase">
+              <span aria-hidden="true" className="bg-accent h-px w-10" />
+              Pet culture
+            </p>
 
-          <h1 className="font-display text-display mt-7 uppercase">
-            {collection.name}
-          </h1>
+            <h1 className="font-display text-display mt-7 uppercase">
+              {collection.name}
+            </h1>
 
-          {/* Terreno del universo. El azul marca el dato, no el mensaje */}
-          <p className="text-eyebrow text-secondary mt-7 uppercase">
-            {collection.category}
-          </p>
+            {/* Terreno del universo. El azul marca el dato, no el mensaje */}
+            <p className="text-eyebrow text-secondary mt-7 uppercase">
+              {collection.category}
+            </p>
 
-          <p className="text-muted mt-7 max-w-md text-lg/relaxed">
-            {collection.description}
-          </p>
+            <p className="text-muted mt-7 max-w-md text-lg/relaxed">
+              {collection.description}
+            </p>
+          </div>
+        </section>
 
-          <p className="text-subtle border-border mt-12 border-t pt-6 text-sm/relaxed">
-            Las piezas de este universo llegan en la siguiente fase.
-          </p>
+        {/* Las piezas del universo. Una fila basta en esta fase. */}
+        {pieces.length > 0 ? (
+          <ProductRail
+            id={`featured-${collection.slug}`}
+            eyebrow="El universo"
+            title={`Featured in ${collection.name}`}
+            description={`${pieces.length} piezas en esta primera selección. El universo crece con cada drop.`}
+            items={pieces}
+          />
+        ) : (
+          <section className="px-6 pt-10 pb-16 sm:px-10 lg:px-14">
+            <p className="text-muted border-border border-t pt-6 text-sm/relaxed">
+              Este universo aún no tiene piezas a la vista. Vuelve pronto.
+            </p>
+          </section>
+        )}
 
+        {/* Cierre: vuelta atrás, con el mismo gesto editorial de la home */}
+        <section className="px-6 pt-2 pb-20 sm:px-10 sm:pb-24 lg:px-14 lg:pb-28">
           <Link
             href="/#collections"
-            className="text-foreground group relative mt-8 inline-flex items-center gap-3 py-2 text-sm font-medium tracking-[0.18em] uppercase"
+            className="text-foreground group relative inline-flex items-center gap-3 py-2 text-sm font-medium tracking-[0.18em] uppercase"
           >
             <svg
               aria-hidden="true"
@@ -98,7 +121,7 @@ export default async function CollectionPage({
               className="bg-accent absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 transition-transform duration-300 ease-[var(--ease-brand)] group-hover:scale-x-100 group-focus-visible:scale-x-100"
             />
           </Link>
-        </div>
+        </section>
       </main>
     </>
   );

@@ -18,6 +18,11 @@ export type CollectionVisualVariant =
   | "comics"
   | "outdoor";
 
+/* Lenguaje visual compartido por todas las cards de contenido (colección,
+   producto, drop, editorial): cinco composiciones CSS que se sustituirán por
+   fotografía o video real sin tocar ninguna card. */
+export type ArtVariant = "halo" | "grid" | "beam" | "orbit" | "duotone";
+
 /* Un universo de cultura, no una categoría de producto. */
 export type Collection = {
   /** Identificador de URL: /colecciones/[slug] */
@@ -30,4 +35,24 @@ export type Collection = {
   category: string;
   /** Firma visual de la portada mientras no exista el asset real */
   visualVariant: CollectionVisualVariant;
+};
+
+/* Una pieza dentro de un universo. La colección se referencia por slug: es el
+   único dato que la card y el detalle necesitan para resolver nombre y ruta.
+   Sin stock, SKU ni variantes: todavía no hay ecommerce. */
+export type Product = {
+  /** Identificador de URL: /productos/[slug] */
+  slug: string;
+  /** Nombre de la pieza */
+  name: string;
+  /** Una línea editorial sobre la pieza */
+  description: string;
+  /** Precio en euros, sin céntimos en esta fase */
+  price: number;
+  /** Slug de la colección a la que pertenece */
+  collection: string;
+  /** Tipo de pieza: "Arnés", "Correa", "Sudadera"... */
+  category: string;
+  /** Firma visual mientras no exista fotografía del producto */
+  visualVariant: ArtVariant;
 };
